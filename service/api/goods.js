@@ -12,12 +12,14 @@ router.get('/insertAllGoodsInfo', async ctx => {
         console.log(data)
         data = JSON.parse(data);
         let saveCount = 0;
-        const Goods = mongoose.model('Goods');
+        const Goods = mongoose.model('Goods'); //获取mongoose模版
 
         data.map((value, index) => {
             console.log(value);
 
-            let newGoods = new Goods(value);
+            let newGoods = new Goods(value); //对循环的每一个数据封装成模版实例
+
+            //存储实例数据
             newGoods.save().then(() => {
                 saveCount++;
                 console.log('成功' + saveCount)
