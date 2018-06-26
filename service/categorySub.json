@@ -1,0 +1,15 @@
+[{
+        "ID": "179287391273917239",
+        "MALL_SUB_NAME": "拿铁",
+        "MALL_CATEGORY_ID": "001",
+        "SORT": 1,
+        "COMMENTS": "这是一个咖啡品种"
+    },
+    {
+        "ID": "179283231273917239",
+        "MALL_SUB_NAME": "卡布奇诺",
+        "MALL_CATEGORY_ID": "002",
+        "SORT": 1,
+        "COMMENTS": "好喝，难喝？"
+    }
+]
