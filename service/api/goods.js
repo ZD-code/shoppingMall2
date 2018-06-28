@@ -68,5 +68,24 @@ router.get('/insertCategorySub', async ctx => {
     });
 
     ctx.body = '开始导入数据'
+});
+
+router.post('/getDetailGoodsInfo', async(ctx) => {
+    let goodsId = ctx.request.body.goodsId;
+    const Goods = mongoose.model('Goods'); //获取模块
+
+    await Goods.findOne({ ID: goodsId }).exec() //模块内查询数据
+        .then(async(result) => {
+            ctx.body = {
+                code: 200,
+                message: result
+            }
+        })
+        .catch(error => {
+            ctx.body = {
+                code: 500,
+                message: error
+            }
+        })
 })
 module.exports = router;
