@@ -52,40 +52,77 @@ router.get('/insertCategoryInfo', async ctx => {
 
 router.get('/insertCategorySub', async ctx => {
     fs.readFile('./categorySub.json', 'utf8', (err, data) => {
-        data = JSON.parse(data);
+        // data = JSON.parse(data);
+        // let saveCount = 0;
+        // const CategorySub = mongoose.model('CategorySub');
+
+        // data.map((value, index) => {
+        //     let newCategorySub = new CategorySub(value);
+        //     newCategorySub.save().then(() => {
+        //         saveCount++;
+        //         console.log('insert success' + saveCount);
+        //     }).catch(err => {
+        //         console.log('insert error' + err);
+        //     })
+        // })
+
+        data = JSON > parse(data);
         let saveCount = 0;
         const CategorySub = mongoose.model('CategorySub');
-
         data.map((value, index) => {
-            let newCategorySub = new CategorySub(value);
-            newCategorySub.save().then(() => {
+
+            try {
+                let newCategorySub = new CategorySub(value);
+                let result = newCategorySub.save();
                 saveCount++;
-                console.log('insert success' + saveCount);
-            }).catch(err => {
-                console.log('insert error' + err);
-            })
+                ctx.body = {
+                    code: 200,
+                    message: 'insert Success' + saveCount
+                };
+            } catch (error) {
+                ctx.body = {
+                    code: 500,
+                    message: 'insert error' + error
+                }
+            }
         })
+
     });
 
     ctx.body = '开始导入数据'
 });
 
 router.post('/getDetailGoodsInfo', async(ctx) => {
-    let goodsId = ctx.request.body.goodsId;
-    const Goods = mongoose.model('Goods'); //获取模块
+    // let goodsId = ctx.request.body.goodsId;
+    // const Goods = mongoose.model('Goods'); //获取模块
 
-    await Goods.findOne({ ID: goodsId }).exec() //模块内查询数据
-        .then(async(result) => {
-            ctx.body = {
-                code: 200,
-                message: result
-            }
-        })
-        .catch(error => {
-            ctx.body = {
-                code: 500,
-                message: error
-            }
-        })
+    // await Goods.findOne({ ID: goodsId }).exec() //模块内查询数据
+    //     .then(async(result) => {
+    //         ctx.body = {
+    //             code: 200,
+    //             message: result
+    //         }
+    //     })
+    //     .catch(error => {
+    //         ctx.body = {
+    //             code: 500,
+    //             message: error
+    //         }
+    //     })
+
+    try {
+        let goodsId = ctx.request.body.goodsId;
+        let Goods = mongoose.model('Goods');
+        let result = await Goods.findOne({ ID: goodsId }).exec();
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: error
+        }
+    }
 })
 module.exports = router;
