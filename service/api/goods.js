@@ -52,40 +52,40 @@ router.get('/insertCategoryInfo', async ctx => {
 
 router.get('/insertCategorySub', async ctx => {
     fs.readFile('./categorySub.json', 'utf8', (err, data) => {
-        // data = JSON.parse(data);
-        // let saveCount = 0;
-        // const CategorySub = mongoose.model('CategorySub');
-
-        // data.map((value, index) => {
-        //     let newCategorySub = new CategorySub(value);
-        //     newCategorySub.save().then(() => {
-        //         saveCount++;
-        //         console.log('insert success' + saveCount);
-        //     }).catch(err => {
-        //         console.log('insert error' + err);
-        //     })
-        // })
-
-        data = JSON > parse(data);
+        data = JSON.parse(data);
         let saveCount = 0;
         const CategorySub = mongoose.model('CategorySub');
-        data.map((value, index) => {
 
-            try {
-                let newCategorySub = new CategorySub(value);
-                let result = newCategorySub.save();
+        data.map((value, index) => {
+            let newCategorySub = new CategorySub(value);
+            newCategorySub.save().then(() => {
                 saveCount++;
-                ctx.body = {
-                    code: 200,
-                    message: 'insert Success' + saveCount
-                };
-            } catch (error) {
-                ctx.body = {
-                    code: 500,
-                    message: 'insert error' + error
-                }
-            }
+                console.log('insert success' + saveCount);
+            }).catch(err => {
+                console.log('insert error' + err);
+            })
         })
+
+        // data = JSON > parse(data);
+        // let saveCount = 0;
+        // const CategorySub = mongoose.model('CategorySub');
+        // data.map((value, index) => {
+
+        //     try {
+        //         let newCategorySub = new CategorySub(value);
+        //         let result = newCategorySub.save();
+        //         saveCount++;
+        //         ctx.body = {
+        //             code: 200,
+        //             message: 'insert Success' + saveCount
+        //         };
+        //     } catch (error) {
+        //         ctx.body = {
+        //             code: 500,
+        //             message: 'insert error' + error
+        //         }
+        //     }
+        // })
 
     });
 
