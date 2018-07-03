@@ -14,6 +14,8 @@ import url from "@/apiConfig";
             }
         },
         created(){
+            this.goodsId = this.$route.query.goodsId;
+            console.log(this.goodsId)
             this.getInfo()
         },
         methods:{

@@ -57,7 +57,7 @@
             <div class="hots-title">热卖商品</div>
         <van-row>
             <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
-                <hotGoods :goodImage='item.image' :goodName="item.name" :goodPrice="item.price"></hotGoods>
+                <hotGoods :goodImage='item.image' :goodName="item.name" :goodPrice="item.price" :goodsId="item.goodsId"></hotGoods>
             </van-col>
         </van-row>
         </div>
@@ -132,6 +132,7 @@
                     this.floor3 = resData.floor3;
                     this.floorNames = resData.floorName;
                     this.hotGoods = resData.hotGoods;
+                    // console.log(this.hotGoods)
                 }
             }).catch(err => {
                 throw new Error(err);
