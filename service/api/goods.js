@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
+//设置路由名称
 router.get('/insertAllGoodsInfo', async ctx => {
+    //使用FS 读取文件
     fs.readFile('./newGoods.json', 'utf8', (err, data) => {
 
         data = JSON.parse(data);
@@ -17,7 +19,7 @@ router.get('/insertAllGoodsInfo', async ctx => {
         data.map((value, index) => {
             let newGoods = new Goods(value); //对循环的每一个数据封装成模版实例
 
-            //存储实例数据
+            //存储实例数据到数据库
             newGoods.save().then(() => {
                 saveCount++;
                 console.log('成功' + saveCount)
@@ -69,9 +71,9 @@ router.get('/insertCategorySub', async ctx => {
     ctx.body = '开始导入数据'
 });
 
-router.post('/getDetailGoodsInfo', async(ctx) => {
-    // let goodsId = ctx.request.body.goodsId;
-    // const Goods = mongoose.model('Goods'); //获取模块
+router.post('/getDetailGoodsInfo', async ctx => {
+    let goodsId = ctx.request.body.goodsId;
+    const Goods = mongoose.model('Goods'); //获取模块
 
     // await Goods.findOne({ ID: goodsId }).exec() //模块内查询数据
     //     .then(async(result) => {
@@ -88,8 +90,6 @@ router.post('/getDetailGoodsInfo', async(ctx) => {
     //     })
 
     try {
-        let goodsId = ctx.request.body.goodsId;
-        let Goods = mongoose.model('Goods');
         let result = await Goods.findOne({ ID: goodsId }).exec();
         ctx.body = {
             code: 200,

@@ -6,12 +6,14 @@ const { resolve } = require('path'); //将一系列路径或路径段转化为�
 mongoose.Promise = global.Promise;
 
 /* 使用glob.sync 同步引入所有的schema文件， forEach 循环使用require引入进来 */
+
 //抛出 initSchema  模块
 exports.initSchema = () => {
     glob.sync(resolve(__dirname, './schema', '**/*.js')).forEach(require);
 }
 
 /* 数据库的链接方法 */
+
 //抛出 connect  模块
 exports.connect = () => {
     // 链接数据库

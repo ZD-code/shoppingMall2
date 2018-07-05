@@ -13,4 +13,7 @@
     #app {
         background: #f0f0f0;
     }
+    img{
+        display: block;
+    }
 </style>

@@ -37,12 +37,14 @@ router.post('/login', async ctx => {
     let loginUser = ctx.request.body;
     console.log(loginUser)
     let userName = loginUser.userName;
-    let password = loginUser.password;
+    let password = loginUser.password; //由用户输入的密码
 
     const User = mongoose.model('User');
+
+    //根据用户输入的用户名，在数据库中查询相匹配的信息
     await User.findOne({ userName: userName }).exec()
         .then(async result => {
-            console.log(result);
+            console.log(result); //数据库中存储的用户数据
             if (result) {
                 let newUser = new User();
 

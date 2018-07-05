@@ -23,7 +23,7 @@ app.use(router.routes(), router.allowedMethods());
 
 (async() => {
     await connect(); //异步执行，需要等待完成    链接数据库
-    initSchema(); //glob.sync同步引入的无需等待  将schema文件夹下的user.js 文件引入进来，创建User模版
+    initSchema(); //glob.sync同步引入的无需等待  将schema文件夹下的所有的  *.js 文件引入进来，创建User模版
 
     // const User = mongoose.model('User'); //使用创建好的User模版对象
     // let oneUser = new User({
