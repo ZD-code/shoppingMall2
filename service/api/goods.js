@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-//设置路由名称
+/**
+ * 向数据库中导入商品信息
+ */
 router.get('/insertAllGoodsInfo', async ctx => {
     //使用FS 读取文件
     fs.readFile('./newGoods.json', 'utf8', (err, data) => {
@@ -32,6 +34,9 @@ router.get('/insertAllGoodsInfo', async ctx => {
     ctx.body = '开始导入数据';
 });
 
+/**
+ * 向数据库中导入目录
+ */
 router.get('/insertCategoryInfo', async ctx => {
     fs.readFile('./category.json', 'utf8', (err, data) => {
         data = JSON.parse(data);
@@ -50,6 +55,9 @@ router.get('/insertCategoryInfo', async ctx => {
     ctx.body = '开始导入数据'
 });
 
+/**
+ * 向数据库中插入子目录
+ */
 router.get('/insertCategorySub', async ctx => {
     fs.readFile('./categorySub.json', 'utf8', (err, data) => {
         data = JSON.parse(data);
@@ -71,6 +79,9 @@ router.get('/insertCategorySub', async ctx => {
     ctx.body = '开始导入数据'
 });
 
+/**
+ * 获取商品详情——路由设置
+ */
 router.post('/getDetailGoodsInfo', async ctx => {
     let goodsId = ctx.request.body.goodsId;
     const Goods = mongoose.model('Goods'); //获取模块
@@ -104,3 +115,66 @@ router.post('/getDetailGoodsInfo', async ctx => {
 });
 
 module.exports = router;
+
+/**
+ * 获取目录列表——路由设置
+ */
+router.get('/getCategoryList', async ctx => {
+    try {
+        const Category = mongoose.model('Category');
+        let result = await Category.find().exec();
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: error
+        }
+    }
+})
+
+/**
+ * 子目录的获取——后台数据库查询
+ */
+router.get('/getCategorySubList', async ctx => {
+    try {
+        let categorySubId = '1';
+        const CategorySub = mongoose.model('CategorySub');
+        let result = await CategorySub.find({
+            'MALL_CATEGORY_ID': categorySubId
+        }).exec();
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: error
+        }
+    }
+})
+
+/**
+ * 后台数据库查询
+ * 根据子目录ID获取目录
+ */
+router.get('/getGoodsListByCategorySubId', async ctx => {
+    try {
+        // let categorySubId = ctx.request.body.categoryId;
+        let categorySubId = '2c9f6c946016ea9b016016f79c8e0000';
+        const Goods = mongoose.model('Goods');
+        let result = await Goods.find({ SUB_ID: categorySubId }).exec();
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: error
+        }
+    }
+});

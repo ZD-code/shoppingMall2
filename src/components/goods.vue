@@ -1,7 +1,7 @@
 <template>
     <div style="padding-bottom:65px;">
         <div class="navbar-div">
-            <van-nav-bar title="商品详情" left-text="返回" left-arrow @click-left="onClickLeft"></van-nav-bar>
+            <van-nav-bar title="商品详情" left-text="返回" left-arrow @click-left="onClickLeft" />
         </div>
         <div class="topimage-div">
             <img :src="goodsInfo.IMAGE1" width="100%">
@@ -9,7 +9,7 @@
         <div class="goods-name" v-text="goodsInfo.NAME"></div>
         <div class="goods-price">价格：￥{{goodsInfo.PERSENT_PRICE | moneyFilter}}</div>
         <div>
-            <van-tabs>
+            <van-tabs sticky swipeable>
                 <van-tab title="商品详情">
                     <div class="detail" v-html="goodsInfo.DETAIL">
 
