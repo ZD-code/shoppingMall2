@@ -1,6 +1,5 @@
 const Koa = require('koa');
 const app = new Koa();
-const mongoose = require('mongoose');
 const { connect, initSchema } = require('./database/init');
 const Router = require('koa-router')
 const bodyparser = require('koa-bodyparser')

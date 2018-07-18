@@ -14,11 +14,15 @@
                 </div>
             </van-col>
             <van-col span="18">
-               右侧列表
+               <div>
+                   <van-tabs v-model="active">
+                       <van-tab v-for="(item,index) in categorySub" :key="index" :title="item.MALL_SUB_NAME"></van-tab>
+                   </van-tabs>
+               </div>
             </van-col>
         </van-row>
     </div>
-</template>clickCategory
+</template>
 
 <script>
 import axios from 'axios'
@@ -29,7 +33,8 @@ import { Toast } from "vant";
             return {
                 category:[],
                 categoryIndex:0,
-                categoryType:''
+                categorySub:[],
+                active:0
             }
         },
         methods:{
@@ -41,13 +46,14 @@ import { Toast } from "vant";
             },
             getCategory(){
                 axios({
-                    type:'get',
+                    method:'get',
                     url:url.getCategoryList
                 })
                 .then(res=>{
                     if(res.data.code == 200 && res.data.message){
-                        console.log(res.data.message)
                         this.category = res.data.message;
+                    
+                        this.getCategorySubByCategoryId(this.category[0].ID);
                     }else{
                         Toast('服务器错误！')
                     }
@@ -57,9 +63,24 @@ import { Toast } from "vant";
                 })
             },
             clickCategory(index,id){
-                console.log(index,id)
                 this.categoryIndex = index;
-                this.categoryType=id;
+                this.getCategorySubByCategoryId(id);
+            },
+            getCategorySubByCategoryId(categorySubId){
+                axios({
+                    method:'post',
+                    url:url.getCategorySubList,
+                    data:{categorySubId:categorySubId}
+                })
+                .then(res=>{
+                    if(res.data.code == 200 && res.data.message){
+                        console.log(res.data.message)
+                        this.categorySub = res.data.message;
+                        this.active=0;
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                })
             }
         },
         created(){

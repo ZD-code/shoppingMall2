@@ -1,11 +1,10 @@
 const Koa = require('koa');
-const app = new Koa();
 const Router = require('koa-router');
 let router = new Router();
 
 const mongoose = require('mongoose');
 const fs = require('fs');
-const path = require('path');
+
 
 /**
  * 向数据库中导入商品信息
@@ -138,13 +137,11 @@ router.get('/getCategoryList', async ctx => {
 /**
  * 子目录的获取——后台数据库查询
  */
-router.get('/getCategorySubList', async ctx => {
+router.post('/getCategorySubList', async ctx => {
     try {
-        let categorySubId = '1';
+        let categorySubId = ctx.request.body.categorySubId;
         const CategorySub = mongoose.model('CategorySub');
-        let result = await CategorySub.find({
-            'MALL_CATEGORY_ID': categorySubId
-        }).exec();
+        let result = await CategorySub.find({ 'MALL_CATEGORY_ID': categorySubId }).exec();
         ctx.body = {
             code: 200,
             message: result
