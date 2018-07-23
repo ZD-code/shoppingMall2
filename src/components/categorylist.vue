@@ -1,11 +1,12 @@
 <template>
     <div>
         <div class="nav-bar">
-            <van-nav-bar title="商品信息" left-arrow left-text="返回" @click-left="back" @click-right="onRightIcon">
+            <van-nav-bar title="商品信息" left-arrow left-text="返回" @click-left="back" @click-right="onRightIcon" fixed>
                 <van-icon name="search" slot="right"></van-icon>
             </van-nav-bar>
         </div>
-        <van-row>
+        <div class="content">
+            <van-row>
             <van-col span="6">
                 <div id="leftNav">
                     <ul>
@@ -19,8 +20,24 @@
                        <van-tab v-for="(item,index) in categorySub" :key="index" :title="item.MALL_SUB_NAME"></van-tab>
                    </van-tabs>
                </div>
+               <div id="list-box" class="list-box">
+                    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+                        <van-list v-model="loading" :finished="finished" @load="onLoad">
+                            <div class="list-item" v-for="(item,index) in list" :key="index">{{'item '+item}}</div>
+                        </van-list>
+                   </van-pull-refresh>
+               </div>
             </van-col>
         </van-row>
+        </div>
+        <div>
+            <van-tabbar v-model="activeId" fixed z-index=999>
+                <van-tabbar-item icon='wap-home'>首页</van-tabbar-item>
+                <van-tabbar-item icon='more'>分类</van-tabbar-item>
+                <van-tabbar-item icon='shopping-cart'>购物车</van-tabbar-item>
+                <van-tabbar-item icon='contact'>会员中心</van-tabbar-item>
+            </van-tabbar>
+        </div>
     </div>
 </template>
 
@@ -34,7 +51,12 @@ import { Toast } from "vant";
                 category:[],
                 categoryIndex:0,
                 categorySub:[],
-                active:0
+                active:0,
+                activeId:0,
+                list:[],
+                loading:false,
+                finished: false,
+                isRefresh:false
             }
         },
         methods:{
@@ -81,6 +103,24 @@ import { Toast } from "vant";
                 }).catch(err=>{
                     console.log(err);
                 })
+            },
+            onLoad(){
+                setTimeout(() => {
+                    for (let index = 0; index < 10; index++) {
+                        this.list.push(this.list.length+1);
+                    }
+                    this.loading=false;
+                    if(this.list.length >= 40){
+                        this.finished=true;
+                    }
+                }, 500);
+            },
+            onRefresh(){
+                setTimeout(() => {
+                    this.isRefresh=false;
+                    this.list=[];
+                    this.onLoad();
+                }, 500);
             }
         },
         created(){
@@ -88,21 +128,36 @@ import { Toast } from "vant";
         },
         mounted(){
             let winHeight = document.documentElement.clientHeight;
-            document.getElementById('leftNav').style.height=winHeight-46+"px";
+            document.getElementById('leftNav').style.height=winHeight-96+"px";
+            document.getElementById('list-box').style.height=winHeight-90-50+'px';
         }
     }
 </script>
 
 <style scoped>
+.van-nav-bar{
+    z-index:100 !important;
+}
 #leftNav ul li {
-    line-height: 2rem;
+    line-height: 44px;
     border-bottom:1px solid #E4E7ED;
-    padding:3px;
+    padding:0 3px;
     font-size:0.8rem;
     text-align: center;
 }
-
+.content{
+    padding-top:46px;
+}
 .categoryActive{
     background-color: #fff;
 }
+    .list-item{
+        text-align: center;
+        line-height: 80px;
+        border-bottom: 1px solid #f0f0f0;
+        background-color: #fff;
+    }
+    #list-box{
+        overflow: scroll;
+    }
 </style>
