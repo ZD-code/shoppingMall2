@@ -11,6 +11,7 @@ const URL = {
     registerUser: LOCALURL + 'user/register', //用户注册接口
     login: LOCALURL + 'user/login',
     getCategoryList: LOCALURL + 'goods/getCategoryList',
-    getCategorySubList: LOCALURL + 'goods/getCategorySubList'
+    getCategorySubList: LOCALURL + 'goods/getCategorySubList',
+    getGoodsListByCategorySubId: LOCALURL + 'goods/getGoodsListByCategorySubId'
 }
 module.exports = URL;

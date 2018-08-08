@@ -158,12 +158,17 @@ router.post('/getCategorySubList', async ctx => {
  * 后台数据库查询
  * 根据子目录ID获取目录
  */
-router.get('/getGoodsListByCategorySubId', async ctx => {
+router.post('/getGoodsListByCategorySubId', async ctx => {
     try {
-        // let categorySubId = ctx.request.body.categoryId;
-        let categorySubId = '2c9f6c946016ea9b016016f79c8e0000';
+        let categorySubId = ctx.request.body.categoryId;
+        let page = ctx.request.body.page;
+        console.log(categorySubId)
+        console.log(page)
+        let num = 10; //每页显示条数
+        let start = (page - 1) * num; //开始位置 ，默认从 零 开始
+        // let categorySubId = '2c9f6c946016ea9b016016f79c8e0000';
         const Goods = mongoose.model('Goods');
-        let result = await Goods.find({ SUB_ID: categorySubId }).exec();
+        let result = await Goods.find({ SUB_ID: categorySubId }).skip(start).limit(num).exec();
         ctx.body = {
             code: 200,
             message: result

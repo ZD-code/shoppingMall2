@@ -7,16 +7,14 @@ import Home from '@/components/Home'
 import Register from '@/components/register'
 import Login from '@/components/login'
 import Goods from "@/components/goods"
-import categoryList from "@/components/categoryList";
+import CategoryList from "@/components/categoryList";
+import Cart from '@/components/Cart'
+import Main from '@/components/Main'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-        path: '/',
-        name: 'Home',
-        component: Home
-    }, {
         path: '/register',
         name: 'Register',
         component: Register
@@ -29,8 +27,23 @@ export default new Router({
         name: 'Goods',
         component: Goods
     }, {
-        path: '/categoryList',
-        name: categoryList,
-        component: categoryList
+        path: '/main',
+        name: 'Main',
+        component: Main,
+        children: [{
+                path: '/',
+                name: 'Home',
+                component: Home
+            },
+            {
+                path: '/categoryList',
+                name: 'CategoryList',
+                component: CategoryList
+            }, {
+                path: '/cart',
+                name: 'Cart',
+                component: Cart
+            }
+        ]
     }]
 })
